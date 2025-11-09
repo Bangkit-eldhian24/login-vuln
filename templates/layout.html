@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Web Security Lab{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .alert { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .warning { background: #fff3e0; color: #ef6c00; border: 1px solid #ffcc80; }
+        .success { background: #e8f5e8; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="password"] { 
+            width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; 
+        }
+        button { background: #2196f3; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #1976d2; }
+        .nav { margin: 20px 0; }
+        .mode-indicator { 
+            position: fixed; top: 10px; right: 10px; padding: 5px 10px; border-radius: 3px; font-weight: bold;
+        }
+        .vulnerable { background: #ffcdd2; color: #c62828; }
+        .secure { background: #c8e6c9; color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if mode %}
+        <div class="mode-indicator {{ 'vulnerable' if mode == 'vulnerable' else 'secure' }}">
+            Mode: {{ mode.upper() }}
+        </div>
+        {% endif %}
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

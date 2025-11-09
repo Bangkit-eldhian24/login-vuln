@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - Web Security Lab{% endblock %}
+
+{% block content %}
+<div class="nav">
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<h1>Dashboard</h1>
+
+<div class="alert success">
+    {{ message | safe }}
+</div>
+
+{% if mode == 'vulnerable' %}
+<div style="margin: 20px 0; padding: 15px; background: #fff3e0; border-radius: 4px;">
+    <h3>🔓 XSS Testing Area (Vulnerable Mode Only)</h3>
+    <p>Try reflected XSS with: <code>?msg=&lt;script&gt;alert('XSS')&lt;/script&gt;</code></p>
+    <p>Current message parameter: 
+        <a href="{{ url_for('dashboard', msg='Hello World') }}">Safe example</a> | 
+        <a href="{{ url_for('dashboard', msg='<script>alert(\"XSS\")</script>') }}">XSS example</a>
+    </p>
+</div>
+{% else %}
+<div style="margin: 20px 0; padding: 15px; background: #e8f5e8; border-radius: 4px;">
+    <h3>🔒 Secure Mode Active</h3>
+    <p>XSS protection enabled - all output is properly escaped.</p>
+</div>
+{% endif %}
+
+<h3>Security Lab Features:</h3>
+<ul>
+    <li>SQL Injection testing on login form</li>
+    {% if mode == 'vulnerable' %}
+    <li>Reflected XSS testing via <code>msg</code> parameter</li>
+    {% endif %}
+    <li>Session management</li>
+</ul>
+{% endblock %}
